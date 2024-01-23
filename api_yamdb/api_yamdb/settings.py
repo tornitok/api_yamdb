@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django_filters',
     'titles.apps.TitlesConfig',
     'users.apps.UsersConfig',
+    'comments.apps.CommentsConfig',
 ]
 
 MIDDLEWARE = [
