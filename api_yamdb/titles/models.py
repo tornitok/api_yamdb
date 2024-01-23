@@ -22,8 +22,8 @@ class GenresModel(models.Model):
     slug = models.SlugField('Slug', max_length=50, unique=True)
 
     class Meta:
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
+        verbose_name = 'Жанр'
+        verbose_name_plural = 'Жанры'
 
     def __str__(self):
         return self.name
@@ -45,8 +45,8 @@ class TitlesModel(models.Model):
     year = models.IntegerField('Год создания произведения')
 
     class Meta:
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
+        verbose_name = 'Произведение'
+        verbose_name_plural = 'Произведения'
 
     def __str__(self):
         return self.name
