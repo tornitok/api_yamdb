@@ -1,11 +1,12 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from titles.views import CategoriesViewSet
+from titles.views import CategoriesViewSet, GenresViewSet
 
 
 v1_router = routers.DefaultRouter()
 v1_router.register(r'categories', CategoriesViewSet)
+v1_router.register(r'genres', GenresViewSet)
 
 
 urlpatterns = [
