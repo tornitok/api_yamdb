@@ -7,5 +7,5 @@ class CategoriesSerializer(serializers.ModelSerializer):
     """Сериализатор для категорий произведений."""
     class Meta:
         model=CategoriesModel
-        fields = "__all__"
+        fields = ['name', 'slug', ]
     

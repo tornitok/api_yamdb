@@ -3,12 +3,14 @@ from rest_framework import filters, viewsets
 
 from titles.models import CategoriesModel
 from titles.serializers import CategoriesSerializer
+from users.permissions import IsAdminOrReadOnly
 
 
 class CategoriesViewSet(viewsets.ModelViewSet):
     """Представление для категорий произведений"""
 
-    queryset = CategoriesModel.object.all()
+    queryset = CategoriesModel.objects.all()
+    permission_classes=[]
     ordering = [
         'name',
     ]
