@@ -1,3 +1,71 @@
 from django.contrib import admin
 
-# Register your models here.
+from titles.models import TitlesModel, CategoriesModel, GenresModel
+
+
+class TitlesInline(admin.TabularInline):
+    verbose_name = 'Жанры произведения'
+    verbose_name_plural = 'Жанры произведения'
+    model = TitlesModel.genres.through
+    extra = 1
+    max_num = 5
+    classes = ['collapse ', 'extrapretty']
+
+
+@admin.register(TitlesModel)
+class TitlesAdmin(admin.ModelAdmin):
+    fields = [
+        'name',
+        'category',
+        'year',
+    ]
+    list_display = [
+        'name',
+        'category',
+        'year',
+    ]
+    list_display_links = [
+        'category',
+    ]
+    ordering = [
+        'name',
+    ]
+    list_filter = [
+        'category',
+        'genres',
+        'year',
+    ]
+    inlines = [
+        TitlesInline,
+    ]
+
+
+@admin.register(CategoriesModel)
+class CategoriesModelAdmin(admin.ModelAdmin):
+    fields = [
+        'name',
+        'slug',
+    ]
+    list_display = [
+        'name',
+        'slug',
+    ]
+    ordering = [
+        'name',
+    ]
+
+
+@admin.register(GenresModel)
+class GenresModelAdmin(admin.ModelAdmin):
+    fields = [
+        'name',
+        'slug',
+    ]
+    list_display = [
+        'name',
+        'slug',
+    ]
+    ordering = [
+        'name',
+    ]
+
