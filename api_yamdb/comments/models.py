@@ -1,13 +1,15 @@
 from django.db import models
 from titles.models import TitlesModel
 from users.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Review(models.Model):
     title_id = models.ForeignKey(
         TitlesModel, on_delete=models.CASCADE, related_name='reviews')
     text = models.TextField()
-    score = models.IntegerField()
+    score = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(10)])
 
 
 class Comment(models.Model):
