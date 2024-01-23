@@ -6,7 +6,7 @@ from titles.models import TitlesModel, CategoriesModel, GenresModel
 class TitlesInline(admin.TabularInline):
     verbose_name = 'Жанры произведения'
     verbose_name_plural = 'Жанры произведения'
-    model = TitlesModel.genres.through
+    model = TitlesModel.genre.through
     extra = 1
     max_num = 5
     classes = ['collapse ', 'extrapretty']
@@ -32,7 +32,7 @@ class TitlesAdmin(admin.ModelAdmin):
     ]
     list_filter = [
         'category',
-        'genres',
+        'genre',
         'year',
     ]
     inlines = [
