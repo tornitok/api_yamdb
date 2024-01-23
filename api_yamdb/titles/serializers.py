@@ -15,3 +15,4 @@ class GenresSerializer(serializers.ModelSerializer):
     class Meta:
         model=GenresModel
         fields = ['name', 'slug', ]
+

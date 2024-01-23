@@ -1,44 +1,17 @@
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, viewsets
-
+from titles.mixins import BaseCategoriesGenresMixin
 from titles.models import CategoriesModel, GenresModel
 from titles.serializers import CategoriesSerializer, GenresSerializer
-from users.permissions import IsAdminOrReadOnly
 
 
-class CategoriesViewSet(viewsets.ModelViewSet):
+class CategoriesViewSet(BaseCategoriesGenresMixin):
     """Представление для категорий произведений"""
 
     queryset = CategoriesModel.objects.all()
-    permission_classes=[]
-    ordering = [
-        'name',
-    ]
-    filter_backends = [
-        DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter,
-    ]
-    search_fields = [
-        'name',
-    ]
     serializer_class = CategoriesSerializer
 
 
-class GenresViewSet(viewsets.ModelViewSet):
+class GenresViewSet(BaseCategoriesGenresMixin):
     """Представление для жанров произведений"""
 
     queryset = GenresModel.objects.all()
-    permission_classes=[]
-    ordering = [
-        'name',
-    ]
-    filter_backends = [
-        DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter,
-    ]
-    search_fields = [
-        'name',
-    ]
     serializer_class = GenresSerializer
