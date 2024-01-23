@@ -11,7 +11,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# test
+# test 2
 # Application definition
 
 INSTALLED_APPS = [
@@ -21,6 +21,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'django_filters',
+    'titles.apps.TitlesConfig',
 ]
 
 MIDDLEWARE = [
@@ -101,3 +104,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = ((BASE_DIR / 'static/'),)
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
+}
