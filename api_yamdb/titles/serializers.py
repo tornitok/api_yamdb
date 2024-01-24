@@ -1,6 +1,7 @@
 from django.db.models import Sum
 from rest_framework import serializers
 
+from comments.models import ReviewModel
 from titles.models import CategoriesModel, GenresModel, TitlesModel
 
 
@@ -42,7 +43,8 @@ class TitlesDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_rating(self, obj):
-        return TitlesModel.reviews.annotate(total=Sum('score')) or 0
+        score = obj.reviews.aggregate(total=Sum('score')) or 0
+        return score['total']
 
 
 class TitlesCreateUpdateSerializer(serializers.ModelSerializer):

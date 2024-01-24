@@ -15,9 +15,9 @@ class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         read_only=True, slug_field='username'
     )
-    reviews = serializers.PrimaryKeyRelatedField(read_only=True)
+    review = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
-        fields = ('id', 'author', 'text', 'pub_date')
+        fields = ('id', 'author', 'text', 'pub_date', 'review')
         model = CommentModel
-        read_only = ('author', 'reviews')
+        read_only = ('author', 'review')
