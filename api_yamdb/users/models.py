@@ -13,6 +13,27 @@ class User(AbstractUser):
         max_length=12,
         choices=Roles.choices,
         default=Roles.USER,
+        null=True,
+    )
+    bio = models.TextField(
+        max_length=150,
+        blank=True,
+        null=True,
+    )
+    username = models.CharField(
+        verbose_name='Имя пользователя',
+        max_length=150,
+        unique=True
+    )
+    email = models.EmailField(
+        verbose_name='Адрес электронной почты',
+        unique=True,
+    )
+    confirmation_code = models.CharField(
+        verbose_name='Код авторизации',
+        max_length=6,
+        blank=True,
+        null=True
     )
 
     if role == 'moderator' or role == 'admin':
