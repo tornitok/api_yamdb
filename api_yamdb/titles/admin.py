@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from titles.models import TitlesModel, CategoriesModel, GenresModel
+from titles.models import CategoriesModel, GenresModel, TitlesModel
 
 
 class TitlesInline(admin.TabularInline):
@@ -68,4 +68,3 @@ class GenresModelAdmin(admin.ModelAdmin):
     ordering = [
         'name',
     ]
-

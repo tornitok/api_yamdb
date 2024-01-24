@@ -17,6 +17,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='titlesmodel',
             name='genre',
-            field=models.ManyToManyField(related_name='genres', to='titles.GenresModel', verbose_name='Жанры произведения'),
+            field=models.ManyToManyField(
+                related_name='genres',
+                to='titles.GenresModel',
+                verbose_name='Жанры произведения',
+            ),
         ),
     ]

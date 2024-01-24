@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from rest_framework import serializers
 
 from titles.models import CategoriesModel, GenresModel, TitlesModel
@@ -7,29 +8,56 @@ class CategoriesSerializer(serializers.ModelSerializer):
     """Сериализатор для категорий произведений."""
 
     class Meta:
-        model=CategoriesModel
-        fields = ['name', 'slug', ]
+        model = CategoriesModel
+        fields = [
+            'name',
+            'slug',
+        ]
+        lookup_field = 'slug'
 
 
 class GenresSerializer(serializers.ModelSerializer):
     """Сериализатор для жанров произведений."""
 
     class Meta:
-        model=GenresModel
-        fields = ['name', 'slug', ]
+        model = GenresModel
+        fields = [
+            'name',
+            'slug',
+        ]
+        lookup_field = 'slug'
 
 
-class TitlesSerializer(serializers.ModelSerializer):
-    """Сериализатор для произведений."""
+class TitlesDetailSerializer(serializers.ModelSerializer):
+    """Сериализатор для подробностей о произведений."""
 
-    genre = GenresSerializer(required=False, many=True)
+    category = CategoriesSerializer()
+    genre = GenresSerializer(
+        many=True,
+    )
+    rating = serializers.SerializerMethodField()
 
     class Meta:
-        model=TitlesModel
-        fields = ['name', 'description', 'year', 'genre', 'category']
+        model = TitlesModel
+        fields = '__all__'
 
-    def create(self, validated_data):
-        return super().create(validated_data)
+    def get_rating(self, obj):
+        return TitlesModel.reviews.annotate(total=Sum('score')) or 0
 
-    def update(self, instance, validated_data):
-        return super().update(instance, validated_data)
+
+class TitlesCreateUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для подробностей о произведений."""
+
+    category = serializers.SlugRelatedField(
+        slug_field='slug',
+        queryset=CategoriesModel.objects.all(),
+    )
+    genre = serializers.SlugRelatedField(
+        slug_field='slug',
+        queryset=GenresModel.objects.all(),
+        many=True,
+    )
+
+    class Meta:
+        model = TitlesModel
+        fields = '__all__'

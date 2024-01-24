@@ -34,14 +34,13 @@ class TitlesModel(models.Model):
     (определённый фильм, книга или песенка)."""
 
     name = models.TextField('Наименование произведения', max_length=256)
-    category = models.OneToOneField(
+    category = models.ForeignKey(
         CategoriesModel,
         verbose_name='Категория произведения',
         on_delete=models.RESTRICT,
     )
     genre = models.ManyToManyField(
-        GenresModel, verbose_name='Жанры произведения',
-        related_name="genres"
+        GenresModel, verbose_name='Жанры произведения', related_name='genres'
     )
     year = models.IntegerField('Год создания произведения')
     description = models.TextField(
