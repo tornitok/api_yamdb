@@ -27,12 +27,22 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='reviewmodel',
             name='author',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='reviews',
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
             model_name='reviewmodel',
             name='pub_date',
-            field=models.DateTimeField(auto_now_add=True, db_index=True, default=django.utils.timezone.now, verbose_name='Дата добавления'),
+            field=models.DateTimeField(
+                auto_now_add=True,
+                db_index=True,
+                default=django.utils.timezone.now,
+                verbose_name='Дата добавления',
+            ),
             preserve_default=False,
         ),
     ]

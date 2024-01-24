@@ -1,6 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, viewsets
-
 from users.permissions import IsAdminOrReadOnly
 
 

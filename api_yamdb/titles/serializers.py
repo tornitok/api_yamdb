@@ -1,7 +1,6 @@
+from comments.models import ReviewModel
 from django.db.models import Sum
 from rest_framework import serializers
-
-from comments.models import ReviewModel
 from titles.models import CategoriesModel, GenresModel, TitlesModel
 
 

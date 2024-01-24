@@ -1,6 +1,5 @@
+from comments.models import CommentModel, ReviewModel
 from django.contrib import admin
-
-from comments.models import ReviewModel, CommentModel
 
 
 class ReviewInline(admin.TabularInline):
@@ -41,6 +40,7 @@ class ReviewAdmin(admin.ModelAdmin):
     inlines = [
         ReviewInline,
     ]
+
 
 @admin.register(CommentModel)
 class CommentAdmin(admin.ModelAdmin):

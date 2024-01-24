@@ -31,7 +31,7 @@ class GenresModel(models.Model):
 
 class TitlesModel(models.Model):
     """Произведения, к которым пишут отзывы
-    (определённый фильм, книга или песенка)."""
+    (oпределённый фильм, книга или песенка)."""
 
     name = models.TextField('Наименование произведения', max_length=256)
     category = models.ForeignKey(

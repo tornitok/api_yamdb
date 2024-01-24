@@ -19,20 +19,72 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Review',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('text', models.TextField()),
-                ('score', models.IntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(10)])),
-                ('title_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='titles.titlesmodel')),
+                (
+                    'score',
+                    models.IntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(1),
+                            django.core.validators.MaxValueValidator(10),
+                        ]
+                    ),
+                ),
+                (
+                    'title_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='reviews',
+                        to='titles.titlesmodel',
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Comment',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('text', models.TextField()),
-                ('created', models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Дата добавления')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to=settings.AUTH_USER_MODEL)),
-                ('titles', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='comments.review')),
+                (
+                    'created',
+                    models.DateTimeField(
+                        auto_now_add=True,
+                        db_index=True,
+                        verbose_name='Дата добавления',
+                    ),
+                ),
+                (
+                    'author',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='comments',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'titles',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='comments',
+                        to='comments.review',
+                    ),
+                ),
             ],
         ),
     ]
