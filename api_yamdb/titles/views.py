@@ -3,7 +3,8 @@ from rest_framework import filters, viewsets
 
 from titles.mixins import BaseCategoriesGenresMixin
 from titles.models import CategoriesModel, GenresModel, TitlesModel
-from titles.serializers import CategoriesSerializer, GenresSerializer, TitlesSerializer
+from titles.serializers import (CategoriesSerializer, GenresSerializer,
+                                TitlesSerializer)
 from users.permissions import IsAdminOrReadOnly
 
 
