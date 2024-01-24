@@ -2,13 +2,8 @@ from http import HTTPStatus
 
 import pytest
 
-from tests.utils import (
-    check_fields,
-    check_pagination,
-    create_comments,
-    create_reviews,
-    create_single_comment,
-)
+from tests.utils import (check_fields, check_pagination, create_comments,
+                         create_reviews, create_single_comment)
 
 
 @pytest.mark.django_db(transaction=True)
@@ -20,26 +15,20 @@ class Test06CommentAPI:
         '/api/v1/titles/{title_id}/reviews/{review_id}/comments/{comment_id}/'
     )
 
-    def test_01_comment_not_auth(
-        self,
-        client,
-        admin_client,
-        admin,
-        user_client,
-        user,
-        moderator_client,
-        moderator,
-    ):
+    def test_01_comment_not_auth(self, client, admin_client, admin,
+                                 user_client, user, moderator_client,
+                                 moderator):
         author_map = {
             admin: admin_client,
             user: user_client,
-            moderator: moderator_client,
+            moderator: moderator_client
         }
         reviews, titles = create_reviews(admin_client, author_map)
 
         response = client.get(
             self.COMMENTS_URL_TEMPLATE.format(
-                title_id=titles[0]['id'], review_id=reviews[0]['id']
+                title_id=titles[0]['id'],
+                review_id=reviews[0]['id']
             )
         )
         assert response.status_code != HTTPStatus.NOT_FOUND, (
@@ -51,19 +40,12 @@ class Test06CommentAPI:
             f'`{self.COMMENTS_URL_TEMPLATE}` возвращает ответ со статусом 200.'
         )
 
-    def test_02_comment(
-        self,
-        admin_client,
-        admin,
-        user_client,
-        user,
-        moderator_client,
-        moderator,
-    ):
+    def test_02_comment(self, admin_client, admin, user_client, user,
+                        moderator_client, moderator):
         author_map = {
             admin: admin_client,
             user: user_client,
-            moderator: moderator_client,
+            moderator: moderator_client
         }
         reviews, titles = create_reviews(admin_client, author_map)
         first_review_comment_cnt = 0
@@ -71,9 +53,10 @@ class Test06CommentAPI:
         data = {}
         response = user_client.post(
             self.COMMENTS_URL_TEMPLATE.format(
-                title_id=titles[0]['id'], review_id=reviews[0]['id']
+                title_id=titles[0]['id'],
+                review_id=reviews[0]['id']
             ),
-            data=data,
+            data=data
         )
         assert response.status_code == HTTPStatus.BAD_REQUEST, (
             'Если POST-запрос пользователя с ролью `user` к '
@@ -104,7 +87,7 @@ class Test06CommentAPI:
 
         response = admin_client.post(
             self.COMMENTS_URL_TEMPLATE.format(title_id='999', review_id='999'),
-            data=post_data,
+            data=post_data
         )
         assert response.status_code == HTTPStatus.NOT_FOUND, (
             'Проверьте, что POST-запрос авторизованного пользователя к '
@@ -114,7 +97,8 @@ class Test06CommentAPI:
 
         response = user_client.get(
             self.COMMENTS_URL_TEMPLATE.format(
-                title_id=titles[0]['id'], review_id=reviews[0]['id']
+                title_id=titles[0]['id'],
+                review_id=reviews[0]['id']
             )
         )
         assert response.status_code == HTTPStatus.OK, (
@@ -126,7 +110,10 @@ class Test06CommentAPI:
             self.COMMENTS_URL_TEMPLATE, data, first_review_comment_cnt
         )
 
-        expected_data = {'text': post_data['text'], 'author': admin.username}
+        expected_data = {
+            'text': post_data['text'],
+            'author': admin.username
+        }
         comment = None
         for value in data['results']:
             if value.get('text') == post_data['text']:
@@ -140,20 +127,13 @@ class Test06CommentAPI:
             'comment', self.COMMENTS_URL_TEMPLATE, comment, expected_data
         )
 
-    def test_03_comment_detail_get(
-        self,
-        client,
-        admin_client,
-        admin,
-        user_client,
-        user,
-        moderator_client,
-        moderator,
-    ):
+    def test_03_comment_detail_get(self, client, admin_client, admin,
+                                   user_client, user, moderator_client,
+                                   moderator):
         author_map = {
             admin: admin_client,
             user: user_client,
-            moderator: moderator_client,
+            moderator: moderator_client
         }
         comments, reviews, titles = create_comments(admin_client, author_map)
 
@@ -161,7 +141,7 @@ class Test06CommentAPI:
             self.COMMENT_DETAIL_URL_TEMPLATE.format(
                 title_id=titles[0]['id'],
                 review_id=reviews[0]['id'],
-                comment_id=comments[0]['id'],
+                comment_id=comments[0]['id']
             )
         )
         assert response.status_code != HTTPStatus.NOT_FOUND, (
@@ -179,33 +159,25 @@ class Test06CommentAPI:
         }
         data = response.json()
         check_fields(
-            'comment',
-            self.COMMENT_DETAIL_URL_TEMPLATE,
-            data,
-            expected_data,
-            detail=True,
+            'comment', self.COMMENT_DETAIL_URL_TEMPLATE, data, expected_data,
+            detail=True
         )
 
-    def test_04_comment_detail__user_patch_delete(
-        self,
-        admin_client,
-        admin,
-        user_client,
-        user,
-        moderator_client,
-        moderator,
-    ):
+    def test_04_comment_detail__user_patch_delete(self, admin_client, admin,
+                                                  user_client, user,
+                                                  moderator_client,
+                                                  moderator):
         author_map = {
             admin: admin_client,
             user: user_client,
-            moderator: moderator_client,
+            moderator: moderator_client
         }
         comments, reviews, titles = create_comments(admin_client, author_map)
 
         second_comment_url = self.COMMENT_DETAIL_URL_TEMPLATE.format(
             title_id=titles[0]['id'],
             review_id=reviews[0]['id'],
-            comment_id=comments[1]['id'],
+            comment_id=comments[1]['id']
         )
         new_data = {'text': 'Updated'}
         response = user_client.patch(second_comment_url, data=new_data)
@@ -240,7 +212,7 @@ class Test06CommentAPI:
         first_comment_url = self.COMMENT_DETAIL_URL_TEMPLATE.format(
             title_id=titles[0]['id'],
             review_id=reviews[0]['id'],
-            comment_id=comments[0]['id'],
+            comment_id=comments[0]['id']
         )
         response = user_client.patch(first_comment_url, data=new_data)
         assert response.status_code == HTTPStatus.FORBIDDEN, (
@@ -270,19 +242,14 @@ class Test06CommentAPI:
             'возвращает ответ со статусом 403.'
         )
 
-    def test_05_comment_detail_admin_and_moderator(
-        self,
-        admin_client,
-        admin,
-        user_client,
-        user,
-        moderator_client,
-        moderator,
-    ):
+    def test_05_comment_detail_admin_and_moderator(self, admin_client, admin,
+                                                   user_client, user,
+                                                   moderator_client,
+                                                   moderator):
         author_map = {
             admin: admin_client,
             user: user_client,
-            moderator: moderator_client,
+            moderator: moderator_client
         }
         comments, reviews, titles = create_comments(admin_client, author_map)
 
@@ -291,9 +258,9 @@ class Test06CommentAPI:
             self.COMMENT_DETAIL_URL_TEMPLATE.format(
                 title_id=titles[0]['id'],
                 review_id=reviews[0]['id'],
-                comment_id=comments[1]['id'],
+                comment_id=comments[1]['id']
             ),
-            data=new_data,
+            data=new_data
         )
         assert response.status_code == HTTPStatus.OK, (
             'Проверьте, что PATCH-запрос авторизованного пользователя к '
@@ -302,17 +269,13 @@ class Test06CommentAPI:
             'статусом 200.'
         )
 
-        for idx, (client, role) in enumerate(
-            (
+        for idx, (client, role) in enumerate((
                 (moderator_client, 'модератора'),
-                (admin_client, 'администратора'),
-            ),
-            1,
-        ):
+                (admin_client, 'администратора')), 1):
             url = self.COMMENT_DETAIL_URL_TEMPLATE.format(
                 title_id=titles[0]['id'],
                 review_id=reviews[0]['id'],
-                comment_id=comments[idx]['id'],
+                comment_id=comments[idx]['id']
             )
             response = client.patch(url, data=new_data)
             assert response.status_code == HTTPStatus.OK, (
@@ -334,20 +297,13 @@ class Test06CommentAPI:
                 'комментарий.'
             )
 
-    def test_06_comment_detail_not_auth(
-        self,
-        admin_client,
-        admin,
-        client,
-        user_client,
-        user,
-        moderator_client,
-        moderator,
-    ):
+    def test_06_comment_detail_not_auth(self, admin_client, admin, client,
+                                        user_client, user, moderator_client,
+                                        moderator):
         author_map = {
             admin: admin_client,
             user: user_client,
-            moderator: moderator_client,
+            moderator: moderator_client
         }
         comments, reviews, titles = create_comments(admin_client, author_map)
         self.COMMENT_DETAIL_URL_TEMPLATE = (
@@ -357,7 +313,7 @@ class Test06CommentAPI:
         url = self.COMMENT_DETAIL_URL_TEMPLATE.format(
             title_id=titles[0]['id'],
             review_id=reviews[0]['id'],
-            comment_id=comments[1]['id'],
+            comment_id=comments[1]['id']
         )
         new_data = {'text': 'update'}
 
@@ -388,18 +344,12 @@ class Test06CommentAPI:
         )
 
     def test_07_comment_detail_put_not_allowed(
-        self,
-        admin_client,
-        admin,
-        user_client,
-        user,
-        moderator_client,
-        moderator,
-    ):
+            self, admin_client, admin, user_client, user, moderator_client,
+            moderator):
         author_map = {
             admin: admin_client,
             user: user_client,
-            moderator: moderator_client,
+            moderator: moderator_client
         }
         comments, reviews, titles = create_comments(admin_client, author_map)
         comment = comments[0]
@@ -408,9 +358,9 @@ class Test06CommentAPI:
             self.COMMENT_DETAIL_URL_TEMPLATE.format(
                 title_id=titles[0]['id'],
                 review_id=reviews[0]['id'],
-                comment_id=comments[0]['id'],
+                comment_id=comments[0]['id']
             ),
-            data=comment,
+            data=comment
         )
         assert response.status_code == HTTPStatus.METHOD_NOT_ALLOWED, (
             f'Проверьте, что PUT-запрос к `{self.COMMENT_DETAIL_URL_TEMPLATE} '
