@@ -4,13 +4,13 @@ from users.permissions import IsAdminOrReadOnly
 
 from titles.mixins import BaseCategoriesGenresMixin
 from titles.models import CategoriesModel, GenresModel, TitlesModel
+
 from titles.serializers import (
     CategoriesSerializer,
     GenresSerializer,
     TitlesCreateUpdateSerializer,
     TitlesDetailSerializer,
 )
-
 
 class CategoriesViewSet(BaseCategoriesGenresMixin):
     """Представление для категорий произведений"""
