@@ -1,13 +1,13 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics, viewsets
+from rest_framework import filters, mixins, viewsets
 from users.permissions import IsAdminOrReadOnly
 
 
 class BaseCategoriesGenresMixin(
     viewsets.GenericViewSet,
-    generics.ListCreateAPIView,
-    generics.DestroyAPIView,
-    generics.RetrieveAPIView,
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
 ):
     permission_classes = [IsAdminOrReadOnly]
     ordering = [
