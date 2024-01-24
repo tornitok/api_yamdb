@@ -39,10 +39,16 @@ class TitlesModel(models.Model):
         verbose_name='Категория произведения',
         on_delete=models.RESTRICT,
     )
-    genres = models.ManyToManyField(
-        GenresModel, verbose_name='Жанры произведения'
+    genre = models.ManyToManyField(
+        GenresModel, verbose_name='Жанры произведения',
+        related_name="genres"
     )
     year = models.IntegerField('Год создания произведения')
+    description = models.TextField(
+        'Описание произведения',
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = 'Произведение'
