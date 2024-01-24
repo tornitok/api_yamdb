@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from titles.models import CategoriesModel, GenresModel, TitlesModel
 
 
@@ -68,4 +67,3 @@ class GenresModelAdmin(admin.ModelAdmin):
     ordering = [
         'name',
     ]
-

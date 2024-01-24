@@ -8,15 +8,27 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
             name='CategoriesModel',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=256, verbose_name='Наименование категории')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'name',
+                    models.CharField(
+                        max_length=256, verbose_name='Наименование категории'
+                    ),
+                ),
                 ('slug', models.SlugField(unique=True, verbose_name='Slug')),
             ],
             options={
@@ -27,8 +39,21 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GenresModel',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=256, verbose_name='Наименование жанра')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'name',
+                    models.CharField(
+                        max_length=256, verbose_name='Наименование жанра'
+                    ),
+                ),
                 ('slug', models.SlugField(unique=True, verbose_name='Slug')),
             ],
             options={
@@ -39,11 +64,43 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TitlesModel',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField(max_length=256, verbose_name='Наименование произведения')),
-                ('year', models.IntegerField(verbose_name='Год создания произведения')),
-                ('category', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, to='titles.categoriesmodel', verbose_name='Категория произведения')),
-                ('genres', models.ManyToManyField(to='titles.GenresModel', verbose_name='Жанры произведения')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'name',
+                    models.TextField(
+                        max_length=256,
+                        verbose_name='Наименование произведения',
+                    ),
+                ),
+                (
+                    'year',
+                    models.IntegerField(
+                        verbose_name='Год создания произведения'
+                    ),
+                ),
+                (
+                    'category',
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.RESTRICT,
+                        to='titles.categoriesmodel',
+                        verbose_name='Категория произведения',
+                    ),
+                ),
+                (
+                    'genres',
+                    models.ManyToManyField(
+                        to='titles.GenresModel',
+                        verbose_name='Жанры произведения',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Произведение',

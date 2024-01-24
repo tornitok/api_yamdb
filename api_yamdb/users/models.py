@@ -3,7 +3,6 @@ from django.db import models
 
 
 class User(AbstractUser):
-
     class Roles(models.TextChoices):
         USER = 'user', 'Пользователь'
         MODERATOR = 'moderator', 'Модератор'

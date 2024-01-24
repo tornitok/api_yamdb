@@ -1,27 +1,59 @@
+from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-
 from titles.models import TitlesModel
-from users.models import User
+
+User = get_user_model()
 
 
 class ReviewModel(models.Model):
     title_id = models.ForeignKey(
-        TitlesModel, on_delete=models.CASCADE, related_name='reviews')
-    text = models.TextField()
+        TitlesModel,
+        verbose_name='Произведение',
+        on_delete=models.CASCADE,
+        related_name='reviews',
+    )
+    text = models.TextField('Текст отзыва')
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='reviews', null=True)
+        User,
+        verbose_name='Автор отзыва',
+        on_delete=models.CASCADE,
+        related_name='reviews',
+        null=True,
+    )
     score = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)])
+        'Рейтинг', validators=[MinValueValidator(1), MaxValueValidator(10)]
+    )
     pub_date = models.DateTimeField(
-        'Дата добавления', auto_now_add=True, db_index=True)
+        'Дата добавления', auto_now_add=True, db_index=True
+    )
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+
+    def __str__(self):
+        return self.title_id.name
 
 
 class CommentModel(models.Model):
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='comments')
+        User,
+        verbose_name='Автор комментария',
+        on_delete=models.CASCADE,
+        related_name='comments',
+    )
     review = models.ForeignKey(
-        ReviewModel, on_delete=models.CASCADE, related_name='comments')
-    text = models.TextField()
+        ReviewModel,
+        verbose_name='Отзыв',
+        on_delete=models.CASCADE,
+        related_name='comments',
+    )
+    text = models.TextField('Текст комментария')
     pub_date = models.DateTimeField(
-        'Дата добавления', auto_now_add=True, db_index=True)
+        'Дата добавления', auto_now_add=True, db_index=True
+    )
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'

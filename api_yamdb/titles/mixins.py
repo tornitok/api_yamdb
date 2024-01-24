@@ -1,6 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, viewsets
-
 from users.permissions import IsAdminOrReadOnly
 
 
@@ -8,6 +7,7 @@ class BaseCategoriesGenresMixin(
     viewsets.GenericViewSet,
     generics.ListCreateAPIView,
     generics.DestroyAPIView,
+    generics.RetrieveAPIView,
 ):
     permission_classes = [IsAdminOrReadOnly]
     ordering = [
@@ -21,3 +21,4 @@ class BaseCategoriesGenresMixin(
     search_fields = [
         'name',
     ]
+    lookup_field = 'slug'
