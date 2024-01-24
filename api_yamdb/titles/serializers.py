@@ -7,7 +7,8 @@ class CategoriesSerializer(serializers.ModelSerializer):
     """Сериализатор для категорий произведений."""
 
     class Meta:
-        model=CategoriesModel
+
+        model = CategoriesModel
         fields = ['name', 'slug', ]
 
 
@@ -15,7 +16,7 @@ class GenresSerializer(serializers.ModelSerializer):
     """Сериализатор для жанров произведений."""
 
     class Meta:
-        model=GenresModel
+        model = GenresModel
         fields = ['name', 'slug', ]
 
 
@@ -25,7 +26,7 @@ class TitlesSerializer(serializers.ModelSerializer):
     genre = GenresSerializer(required=False, many=True)
 
     class Meta:
-        model=TitlesModel
+        model = TitlesModel
         fields = ['name', 'description', 'year', 'genre', 'category']
 
     def create(self, validated_data):
