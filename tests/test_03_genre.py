@@ -3,10 +3,8 @@ from http import HTTPStatus
 import pytest
 
 from tests.utils import (
-    check_name_and_slug_patterns,
-    check_pagination,
-    check_permissions,
-    create_genre,
+    check_name_and_slug_patterns, check_pagination, check_permissions,
+    create_genre
 )
 
 
@@ -84,9 +82,9 @@ class Test03GenreAPI:
     @pytest.mark.parametrize('data,massage', check_name_and_slug_patterns)
     def test_03_category_fields_validation(self, data, massage, admin_client):
         response = admin_client.post(self.GENRES_URL, data=data)
-        assert response.status_code == HTTPStatus.BAD_REQUEST, massage[
-            0
-        ].format(url=self.GENRES_URL)
+        assert response.status_code == HTTPStatus.BAD_REQUEST, (
+            massage[0].format(url=self.GENRES_URL)
+        )
 
     def test_04_genres_delete(self, admin_client):
         genres = create_genre(admin_client)
@@ -121,32 +119,20 @@ class Test03GenreAPI:
             '405.'
         )
 
-    def test_05_genres_check_permission(
-        self, client, user_client, moderator_client, admin_client
-    ):
+    def test_05_genres_check_permission(self, client,
+                                        user_client,
+                                        moderator_client,
+                                        admin_client):
         genres = create_genre(admin_client)
-        data = {'name': 'Боевик', 'slug': 'action'}
-        check_permissions(
-            client,
-            self.GENRES_URL,
-            data,
-            'неавторизованного пользователя',
-            genres,
-            HTTPStatus.UNAUTHORIZED,
-        )
-        check_permissions(
-            user_client,
-            self.GENRES_URL,
-            data,
-            'пользователя с ролью `user`',
-            genres,
-            HTTPStatus.FORBIDDEN,
-        )
-        check_permissions(
-            moderator_client,
-            self.GENRES_URL,
-            data,
-            'модератора',
-            genres,
-            HTTPStatus.FORBIDDEN,
-        )
+        data = {
+            'name': 'Боевик',
+            'slug': 'action'
+        }
+        check_permissions(client, self.GENRES_URL, data,
+                          'неавторизованного пользователя',
+                          genres, HTTPStatus.UNAUTHORIZED)
+        check_permissions(user_client, self.GENRES_URL, data,
+                          'пользователя с ролью `user`', genres,
+                          HTTPStatus.FORBIDDEN)
+        check_permissions(moderator_client, self.GENRES_URL, data,
+                          'модератора', genres, HTTPStatus.FORBIDDEN)
