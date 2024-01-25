@@ -5,6 +5,7 @@ from django.contrib.staticfiles import finders
 from django.core.management.base import BaseCommand
 from django.db import connection
 
+from ._const import DATA_COMMENTS_APP, DATA_TITLES_APP, DATA_USER_APP
 
 class Command(BaseCommand):
     help = 'Загружает данные из приложенных CSV-файлов (static/data)'
@@ -162,27 +163,19 @@ class Command(BaseCommand):
         self.stdout.write('\n\n')
 
     def handle(self, *args, **kwargs):
+
         self.print_divider()
+
         if self.check_installed_apps('titles'):
-            self.load_data('titles', 'CategoriesModel', 'data/category.csv')
-            self.load_data('titles', 'GenresModel', 'data/genre.csv')
-            self.load_data(
-                'titles', 'TitlesModel', 'data/titles.csv', ['category']
-            )
-            # self.load_data('titles', 'CategoriesModel', 'data/genre_title.csv')
+          for model in DATA_TITLES_APP:
+              self.load_data(*model)
+
         if self.check_installed_apps('users'):
-            self.load_data('users', 'User', 'data/users.csv')
+          for model in DATA_USER_APP:
+              self.load_data(*model)
+
         if self.check_installed_apps('comments'):
-            self.load_data(
-                'comments',
-                'ReviewModel',
-                'data/review.csv',
-                ['title_id', 'author'],
-            )
-            self.load_data(
-                'comments',
-                'CommentModel',
-                'data/comments.csv',
-                ['review_id', 'author'],
-            )
+            for model in DATA_COMMENTS_APP:
+              self.load_data(*model)
+
         self.print_divider()
