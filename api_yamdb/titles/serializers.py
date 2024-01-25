@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db.models import Sum
 from rest_framework import serializers
 from titles.models import CategoriesModel, GenresModel, TitlesModel
@@ -61,3 +63,10 @@ class TitlesCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = TitlesModel
         fields = '__all__'
+
+    def validate_year(self, obj):
+        current_datetime = datetime.now()
+        if obj > current_datetime.year:
+            raise serializers.ValidationError(
+                'Год создания произведения не может быть больше текущего'
+            )
