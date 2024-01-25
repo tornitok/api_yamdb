@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'titles.apps.TitlesConfig',
     'users.apps.UsersConfig',
     'comments.apps.CommentsConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [

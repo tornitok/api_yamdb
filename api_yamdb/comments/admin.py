@@ -47,14 +47,14 @@ class CommentAdmin(admin.ModelAdmin):
     fields = [
         'pub_date',
         'author',
-        'review',
+        'review_id',
         'text',
     ]
     readonly_fields = [
         'pub_date',
     ]
     list_display = [
-        'review',
+        'review_id',
         'text',
         'author',
         'pub_date',
@@ -63,7 +63,7 @@ class CommentAdmin(admin.ModelAdmin):
         'pub_date',
     ]
     list_filter = [
-        'review',
+        'review_id',
         'pub_date',
         'author',
     ]

@@ -13,6 +13,7 @@ class User(AbstractUser):
         choices=Roles.choices,
         default=Roles.USER,
     )
+    bio = models.TextField()
 
     if role == 'moderator' or role == 'admin':
         is_staff = True
