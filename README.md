@@ -58,5 +58,5 @@ python manage.py csvmigrate
 Документация API YaMDb:
 
 ```
-http://127.0.0.1/redoc
+http://127.0.0.1:8000/redoc/
 ```
