@@ -7,6 +7,7 @@ from django.db import connection
 
 from ._const import DATA_COMMENTS_APP, DATA_TITLES_APP, DATA_USER_APP
 
+
 class Command(BaseCommand):
     help = 'Загружает данные из приложенных CSV-файлов (static/data)'
 

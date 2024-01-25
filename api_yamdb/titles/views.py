@@ -2,12 +2,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, permissions, response, viewsets
 from titles.mixins import BaseCategoriesGenresMixin
 from titles.models import CategoriesModel, GenresModel, TitlesModel
-from titles.serializers import (
-    CategoriesSerializer,
-    GenresSerializer,
-    TitlesCreateUpdateSerializer,
-    TitlesDetailSerializer,
-)
+from titles.serializers import (CategoriesSerializer, GenresSerializer,
+                                TitlesCreateUpdateSerializer,
+                                TitlesDetailSerializer)
 from users.permissions import IsAdminOrReadOnly
 
 
