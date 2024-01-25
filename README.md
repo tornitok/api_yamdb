@@ -1,5 +1,6 @@
 # api_yamdb
-api_yamdb
+
+YaMDb собирает отзывы пользователей на произведения. Сами произведения в YaMDb не хранятся, здесь нельзя посмотреть фильм или послушать музыку.
 
 ## Установка
 Клонировать репозиторий и перейти в него в командной строке:
@@ -35,6 +36,10 @@ pip install -r requirements.txt
 Выполнить миграции:
 
 ```
+python3 manage.py makemigrations
+```
+
+```
 python3 manage.py migrate
 ```
 
@@ -42,4 +47,16 @@ python3 manage.py migrate
 
 ```
 python3 manage.py runserver
+```
+
+Заполнение БД тестовыми данными:
+
+```
+python manage.py csvmigrate
+```
+
+Документация API YaMDb:
+
+```
+http://127.0.0.1/redoc
 ```
