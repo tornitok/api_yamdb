@@ -144,7 +144,7 @@ class Command(BaseCommand):
                     self.stdout.write(
                         self.style.SUCCESS(
                             (
-                                f'\nДобавлено {index} из записей '
+                                f'\nДобавлено {index} записей '
                                 f'из {index_all}\n\n'
                             )
                         )
