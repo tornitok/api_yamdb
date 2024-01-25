@@ -55,7 +55,10 @@ class TitlesModel(models.Model):
         on_delete=models.RESTRICT,
     )
     genre = models.ManyToManyField(
-        GenresModel, verbose_name='Жанры произведения', related_name='genres'
+        GenresModel,
+        verbose_name='Жанры произведения',
+        related_name='genres',
+        through='TitlesGenresModel',
     )
     year = models.IntegerField('Год создания произведения')
     description = models.TextField(
@@ -70,3 +73,14 @@ class TitlesModel(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class TitlesGenresModel(models.Model):
+    """Промежуточная модель для Произведений-Жанров."""
+
+    title = models.ForeignKey(
+        TitlesModel, verbose_name='Произведение', on_delete=models.CASCADE
+    )
+    genre = models.ForeignKey(
+        GenresModel, verbose_name='Жанр', on_delete=models.CASCADE
+    )
