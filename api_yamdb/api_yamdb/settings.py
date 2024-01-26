@@ -1,7 +1,8 @@
+import os
+from datetime import timedelta
 from pathlib import Path
 import os
 from datetime import timedelta
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,14 +24,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+  
     'rest_framework',
     'django_filters',
     'djoser',
     'rest_framework_simplejwt',
 
-    'api.apps.ApiConfig'
+    'titles.apps.TitlesConfig',
     'users.apps.UsersConfig',
+    'comments.apps.CommentsConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
