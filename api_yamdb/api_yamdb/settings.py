@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework_simplejwt',
 
+    'api.apps.ApiConfig',
     'titles.apps.TitlesConfig',
     'users.apps.UsersConfig',
     'comments.apps.CommentsConfig',
