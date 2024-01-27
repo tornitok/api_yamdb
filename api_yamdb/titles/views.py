@@ -1,11 +1,21 @@
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, permissions, response, viewsets
+from django_filters import rest_framework as filters
+from rest_framework.filters import OrderingFilter
+from rest_framework import permissions, response, viewsets, status
+
+from titles.filters import TitleFilter
 from titles.mixins import BaseCategoriesGenresMixin
 from titles.models import CategoriesModel, GenresModel, TitlesModel
-from titles.serializers import (CategoriesSerializer, GenresSerializer,
-                                TitlesCreateUpdateSerializer,
-                                TitlesDetailSerializer)
-from users.permissions import IsAdminOrReadOnly
+from titles.serializers import (
+    CategoriesSerializer,
+    GenresSerializer,
+    TitlesCreateUpdateSerializer,
+    TitlesDetailSerializer,
+)
+from users.permissions import (
+    IsAdminOrModeratorOrReadOnly,
+    isNotModeratorRole,
+    isNotUserRole,
+)
 
 
 class CategoriesViewSet(BaseCategoriesGenresMixin):
@@ -23,26 +33,34 @@ class GenresViewSet(BaseCategoriesGenresMixin):
 
 
 class TitlesViewSet(viewsets.ModelViewSet):
-    """Представление для сотрудников."""
+    """Представление для произведений."""
 
-    queryset = TitlesModel.objects.all().select_related('category')
+    http_method_names = ['get', 'post', 'patch', 'delete']
+
+    queryset = TitlesModel.objects.all()
+
     permission_classes = [
-        IsAdminOrReadOnly,
+        isNotUserRole,
+        isNotModeratorRole,
+        IsAdminOrModeratorOrReadOnly,
     ]
-    filterset_fields = [
-        'category__slug',
-        'genre__slug',
-        'name',
-        'year',
-    ]
+
+    filterset_class = TitleFilter
     ordering = [
         'name',
     ]
     filter_backends = [
-        DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter,
+        OrderingFilter,
     ]
+
+    def filter_queryset(self, queryset):
+        filter_backends = (filters.DjangoFilterBackend,)
+
+        for backend in list(filter_backends):
+            queryset = backend().filter_queryset(
+                self.request, queryset, view=self
+            )
+        return queryset
 
     def get_serializer_class(self):
         if self.request.method in permissions.SAFE_METHODS:
@@ -54,4 +72,6 @@ class TitlesViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
         instance_serializer = TitlesDetailSerializer(instance)
-        return response.Response(instance_serializer.data)
+        return response.Response(
+            instance_serializer.data, status=status.HTTP_201_CREATED
+        )

@@ -168,15 +168,15 @@ class Command(BaseCommand):
         self.print_divider()
 
         if self.check_installed_apps('titles'):
-          for model in DATA_TITLES_APP:
-              self.load_data(*model)
+            for model in DATA_TITLES_APP:
+                self.load_data(*model)
 
         if self.check_installed_apps('users'):
-          for model in DATA_USER_APP:
-              self.load_data(*model)
+            for model in DATA_USER_APP:
+                self.load_data(*model)
 
         if self.check_installed_apps('comments'):
             for model in DATA_COMMENTS_APP:
-              self.load_data(*model)
+                self.load_data(*model)
 
         self.print_divider()

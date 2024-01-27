@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 
 
@@ -5,7 +6,12 @@ class CategoriesModel(models.Model):
     """Категории (типы) произведений."""
 
     name = models.CharField('Наименование категории', max_length=256)
-    slug = models.SlugField('Slug', max_length=50, unique=True)
+    slug = models.SlugField(
+        'Slug',
+        max_length=50,
+        unique=True,
+        validators=[RegexValidator(regex='^[-a-zA-Z0-9_]+$')],
+    )
 
     class Meta:
         verbose_name = 'Категория'
@@ -19,7 +25,12 @@ class GenresModel(models.Model):
     """Категории жанров."""
 
     name = models.CharField('Наименование жанра', max_length=256)
-    slug = models.SlugField('Slug', max_length=50, unique=True)
+    slug = models.SlugField(
+        'Slug',
+        max_length=50,
+        unique=True,
+        validators=[RegexValidator(regex='^[-a-zA-Z0-9_]+$')],
+    )
 
     class Meta:
         verbose_name = 'Жанр'
@@ -42,7 +53,7 @@ class TitlesModel(models.Model):
     genre = models.ManyToManyField(
         GenresModel,
         verbose_name='Жанры произведения',
-        related_name='genres',
+        related_name='titles',
         through='TitlesGenresModel',
     )
     year = models.IntegerField('Год создания произведения')
