@@ -36,22 +36,31 @@ class TitlesViewSet(viewsets.ModelViewSet):
     """Представление для произведений."""
 
     http_method_names = ['get', 'post', 'patch', 'delete']
+
     queryset = TitlesModel.objects.all()
+
     permission_classes = [
         isNotUserRole,
         isNotModeratorRole,
         IsAdminOrModeratorOrReadOnly,
     ]
+
     filterset_class = TitleFilter
-    filter_backends = [
-        filters.DjangoFilterBackend,
-    ]
     ordering = [
         'name',
     ]
     filter_backends = [
         OrderingFilter,
     ]
+
+    def filter_queryset(self, queryset):
+        filter_backends = (filters.DjangoFilterBackend,)
+
+        for backend in list(filter_backends):
+            queryset = backend().filter_queryset(
+                self.request, queryset, view=self
+            )
+        return queryset
 
     def get_serializer_class(self):
         if self.request.method in permissions.SAFE_METHODS:

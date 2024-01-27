@@ -1,10 +1,10 @@
-from django_filters import rest_framework as filters
+import django_filters as filters
 
 from titles.models import TitlesModel
 
 
 class TitleFilter(filters.FilterSet):
-    genre = filters.CharFilter(field_name='genre__slug', lookup_expr='exact')
+    genre = filters.CharFilter(field_name='genre__slug', method='filter_genre')
     category = filters.CharFilter(
         field_name='category__slug', lookup_expr='exact'
     )
@@ -14,3 +14,10 @@ class TitleFilter(filters.FilterSet):
     class Meta:
         model = TitlesModel
         fields = ['genre', 'category', 'name', 'year']
+
+    def __init__(self, *args, **kwargs):
+        super(TitleFilter, self).__init__(*args, **kwargs)
+
+    def filter_genre(self, queryset, name, value):
+        lookup = '__'.join([name, 'exact'])
+        return queryset.filter(**{lookup: value})

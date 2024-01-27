@@ -30,7 +30,8 @@ class IsAdminOrModeratorOrReadOnly(BasePermission):
 class isNotUserRole(BasePermission):
     def has_permission(self, request, view):
         if (request.user.is_authenticated
-            and request.user.role == User.Roles.USER):
+            and request.user.role == User.Roles.USER
+            and not request.user.is_superuser):
             raise PermissionDenied(
                 f'Недостаточно прав для данного действия'
             )
@@ -41,7 +42,8 @@ class isNotUserRole(BasePermission):
 class isNotModeratorRole(BasePermission):
     def has_permission(self, request, view):
         if (request.user.is_authenticated
-            and request.user.role == User.Roles.MODERATOR):
+            and request.user.role == User.Roles.MODERATOR
+            and not request.user.is_superuser):
             raise PermissionDenied(
                 f'Недостаточно прав для данного действия'
             )
