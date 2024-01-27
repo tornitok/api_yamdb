@@ -10,9 +10,7 @@ class CategoriesModel(models.Model):
         'Slug',
         max_length=50,
         unique=True,
-        validators = [
-            RegexValidator(regex='^[-a-zA-Z0-9_]+$')
-        ]
+        validators=[RegexValidator(regex='^[-a-zA-Z0-9_]+$')],
     )
 
     class Meta:
@@ -31,9 +29,7 @@ class GenresModel(models.Model):
         'Slug',
         max_length=50,
         unique=True,
-        validators = [
-            RegexValidator(regex='^[-a-zA-Z0-9_]+$')
-        ]
+        validators=[RegexValidator(regex='^[-a-zA-Z0-9_]+$')],
     )
 
     class Meta:
@@ -57,7 +53,7 @@ class TitlesModel(models.Model):
     genre = models.ManyToManyField(
         GenresModel,
         verbose_name='Жанры произведения',
-        related_name='genres',
+        related_name='titles',
         through='TitlesGenresModel',
     )
     year = models.IntegerField('Год создания произведения')

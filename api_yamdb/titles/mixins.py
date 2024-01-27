@@ -1,6 +1,9 @@
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, mixins, viewsets
-from users.permissions import IsAdminOrReadOnly
+from users.permissions import (
+    IsAdminOrModeratorOrReadOnly,
+    isNotUserRole,
+    isNotModeratorRole,
+)
 
 
 class BaseCategoriesGenresMixin(
@@ -9,12 +12,15 @@ class BaseCategoriesGenresMixin(
     mixins.ListModelMixin,
     mixins.DestroyModelMixin,
 ):
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [
+        isNotUserRole,
+        isNotModeratorRole,
+        IsAdminOrModeratorOrReadOnly,
+    ]
     ordering = [
         'name',
     ]
     filter_backends = [
-        DjangoFilterBackend,
         filters.SearchFilter,
         filters.OrderingFilter,
     ]

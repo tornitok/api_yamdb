@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from titles.models import TitlesModel
-from users.permissions import IsAuthorAdminModerOrReadOnly
+from users.permissions import IsAuthorOrAdminOrModeratorOrReadOnly
 
 from .models import CommentModel, ReviewModel
 from .serializers import CommentSerializer, ReviewSerializer
@@ -10,7 +10,7 @@ from .serializers import CommentSerializer, ReviewSerializer
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = [
-        IsAuthorAdminModerOrReadOnly,
+        IsAuthorOrAdminOrModeratorOrReadOnly,
     ]
 
     def get_queryset(self):
@@ -28,7 +28,7 @@ class ReviewModelViewSet(viewsets.ModelViewSet):
     queryset = ReviewModel.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [
-        IsAuthorAdminModerOrReadOnly,
+        IsAuthorOrAdminOrModeratorOrReadOnly,
     ]
 
     def perform_create(self, serializer):

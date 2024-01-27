@@ -70,3 +70,4 @@ class TitlesCreateUpdateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'Год создания произведения не может быть больше текущего'
             )
+        return obj
