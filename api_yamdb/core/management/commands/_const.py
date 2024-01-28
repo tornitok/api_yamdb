@@ -11,7 +11,7 @@ DATA_REVIEWS_APP = [
     ],
     [
         'reviews',
-        'Titles',
+        'Title',
         'data/titles.csv',
         ['category'],
     ],
