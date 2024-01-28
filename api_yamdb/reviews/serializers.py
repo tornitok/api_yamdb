@@ -1,13 +1,20 @@
+from datetime import datetime
+
+from django.contrib.auth import get_user_model
 from django.db.models import Sum
 from rest_framework import serializers
-from titles.models import CategoriesModel, GenresModel, TitlesModel
+
+from .models import Categories, Genres, Title, Comment, Review
+
+
+User = get_user_model()
 
 
 class CategoriesSerializer(serializers.ModelSerializer):
     """Сериализатор для категорий произведений."""
 
     class Meta:
-        model = CategoriesModel
+        model = Categories
         fields = [
             'name',
             'slug',
@@ -19,7 +26,7 @@ class GenresSerializer(serializers.ModelSerializer):
     """Сериализатор для жанров произведений."""
 
     class Meta:
-        model = GenresModel
+        model = Genres
         fields = [
             'name',
             'slug',
@@ -37,7 +44,7 @@ class TitlesDetailSerializer(serializers.ModelSerializer):
     rating = serializers.SerializerMethodField()
 
     class Meta:
-        model = TitlesModel
+        model = Title
         fields = '__all__'
 
     def get_rating(self, obj):
@@ -50,14 +57,51 @@ class TitlesCreateUpdateSerializer(serializers.ModelSerializer):
 
     category = serializers.SlugRelatedField(
         slug_field='slug',
-        queryset=CategoriesModel.objects.all(),
+        queryset=Categories.objects.all(),
     )
     genre = serializers.SlugRelatedField(
         slug_field='slug',
-        queryset=GenresModel.objects.all(),
+        queryset=Genres.objects.all(),
         many=True,
     )
 
     class Meta:
-        model = TitlesModel
+        model = Title
         fields = '__all__'
+
+    def validate_year(self, obj):
+        current_datetime = datetime.now()
+        if obj > current_datetime.year:
+            raise serializers.ValidationError(
+                'Год создания произведения не может быть больше текущего'
+            )
+        return obj
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    author = serializers.SlugRelatedField(
+        queryset=User.objects.all(),
+        slug_field='username'
+    )
+    title_id = serializers.PrimaryKeyRelatedField(
+        queryset=Title.objects.all()
+    )
+    class Meta:
+        model = Review
+        fields = '__all__'
+        read_only_fields = (
+            'pub_date',
+            'author',
+        )
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.SlugRelatedField(
+        queryset=User.objects.all(),
+        slug_field='username'
+    )
+
+    class Meta:
+        fields = ('id', 'author', 'text', 'pub_date', 'review_id')
+        model = Comment
+        
