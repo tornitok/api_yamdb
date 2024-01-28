@@ -5,7 +5,7 @@ from django.contrib.staticfiles import finders
 from django.core.management.base import BaseCommand
 from django.db import connection
 
-from ._const import DATA_COMMENTS_APP, DATA_TITLES_APP, DATA_USER_APP
+from ._const import DATA_REVIEWS_APP, DATA_USER_APP
 
 
 class Command(BaseCommand):
@@ -167,16 +167,12 @@ class Command(BaseCommand):
 
         self.print_divider()
 
-        if self.check_installed_apps('titles'):
-            for model in DATA_TITLES_APP:
+        if self.check_installed_apps('reviews'):
+            for model in DATA_REVIEWS_APP:
                 self.load_data(*model)
 
         if self.check_installed_apps('users'):
             for model in DATA_USER_APP:
-                self.load_data(*model)
-
-        if self.check_installed_apps('comments'):
-            for model in DATA_COMMENTS_APP:
                 self.load_data(*model)
 
         self.print_divider()
