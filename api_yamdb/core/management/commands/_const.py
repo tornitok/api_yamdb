@@ -4,11 +4,7 @@ DATA_TITLES_APP = [
         'CategoriesModel',
         'data/category.csv',
     ],
-    [
-        'titles',
-        'GenresModel',
-        'data/genre.csv'
-    ],
+    ['titles', 'GenresModel', 'data/genre.csv'],
     [
         'titles',
         'TitlesModel',
@@ -37,9 +33,5 @@ DATA_COMMENTS_APP = [
     ],
 ]
 DATA_USER_APP = [
-    [
-        'users',
-        'User',
-        'data/users.csv'
-    ],
+    ['users', 'User', 'data/users.csv'],
 ]

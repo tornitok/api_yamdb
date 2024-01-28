@@ -4,8 +4,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Avg
 from rest_framework import serializers
 
-from .models import Categories, Genres, Title, Comment, Review
-
+from .models import Categories, Comment, Genres, Review, Title
 
 User = get_user_model()
 
@@ -80,12 +79,10 @@ class TitlesCreateUpdateSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        queryset=User.objects.all(),
-        slug_field='username'
+        queryset=User.objects.all(), slug_field='username'
     )
-    title_id = serializers.PrimaryKeyRelatedField(
-        queryset=Title.objects.all()
-    )
+    title_id = serializers.PrimaryKeyRelatedField(queryset=Title.objects.all())
+
     class Meta:
         model = Review
         fields = '__all__'
@@ -97,11 +94,9 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        queryset=User.objects.all(),
-        slug_field='username'
+        queryset=User.objects.all(), slug_field='username'
     )
 
     class Meta:
         fields = ('id', 'author', 'text', 'pub_date', 'review_id')
         model = Comment
-        
