@@ -1,8 +1,9 @@
 from rest_framework import filters, mixins, viewsets
+
 from users.permissions import (
     IsAdminOrModeratorOrReadOnly,
-    isNotUserRole,
     isNotModeratorRole,
+    isNotUserRole,
 )
 
 

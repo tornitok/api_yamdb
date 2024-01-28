@@ -1,6 +1,6 @@
-from django.contrib.auth.validators import UnicodeUsernameValidator
 import re
 
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from rest_framework import exceptions, serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -33,20 +33,23 @@ class RegistrationSerializer(serializers.Serializer):
         username = value.get('username')
         email = value.get('email')
         existing_user_with_username = User.objects.filter(
-            username=username).first()
+            username=username
+        ).first()
         existing_user_with_email = User.objects.filter(email=email).first()
 
         if existing_user_with_username and (
             existing_user_with_username.email != email
         ):
-            raise serializers.ValidationError('Пользователь с указанным '
-                                              'username уже зарегистрирован.')
+            raise serializers.ValidationError(
+                'Пользователь с указанным ' 'username уже зарегистрирован.'
+            )
 
         if existing_user_with_email and (
             existing_user_with_email.username != username
         ):
-            raise serializers.ValidationError('Пользователь с указанным '
-                                              'email уже зарегистрирован.')
+            raise serializers.ValidationError(
+                'Пользователь с указанным ' 'email уже зарегистрирован.'
+            )
         return value
 
 
@@ -85,11 +88,17 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'username', 'email', 'first_name',
-            'last_name', 'bio', 'role')
+            'username',
+            'email',
+            'first_name',
+            'last_name',
+            'bio',
+            'role',
+        )
 
     def validate_username(self, value):
         if User.objects.filter(username=value).exists():
-            raise serializers.ValidationError('Пользователь с указанным '
-                                              'username уже зарегистрирован.')
+            raise serializers.ValidationError(
+                'Пользователь с указанным ' 'username уже зарегистрирован.'
+            )
         return value
