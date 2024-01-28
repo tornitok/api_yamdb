@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.contrib.auth import get_user_model
-from django.db.models import Sum
+from django.db.models import Avg
 from rest_framework import serializers
 
 from .models import Categories, Genres, Title, Comment, Review
@@ -41,15 +41,15 @@ class TitlesDetailSerializer(serializers.ModelSerializer):
     genre = GenresSerializer(
         many=True,
     )
-    rating = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField(source='score')
 
     class Meta:
         model = Title
         fields = '__all__'
 
     def get_rating(self, obj):
-        score = obj.reviews.aggregate(total=Sum('score')) or 0
-        return score['total']
+        score = obj.reviews.aggregate(total=Avg('score')) or 0
+        return score['total'] or None
 
 
 class TitlesCreateUpdateSerializer(serializers.ModelSerializer):
