@@ -1,8 +1,15 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
+from rest_framework import permissions, response, status, viewsets
 from rest_framework.filters import OrderingFilter
-from rest_framework import permissions, response, viewsets, status
+
+from users.permissions import (
+    IsAdminOrModeratorOrReadOnly,
+    IsAuthorOrAdminOrModeratorOrReadOnly,
+    isNotModeratorRole,
+    isNotUserRole,
+)
 
 from .filters import TitleFilter
 from .mixins import BaseCategoriesGenresMixin
@@ -15,13 +22,6 @@ from .serializers import (
     TitlesCreateUpdateSerializer,
     TitlesDetailSerializer,
 )
-from users.permissions import (
-    IsAdminOrModeratorOrReadOnly,
-    IsAuthorOrAdminOrModeratorOrReadOnly,
-    isNotModeratorRole,
-    isNotUserRole,
-)
-
 
 User = get_user_model()
 

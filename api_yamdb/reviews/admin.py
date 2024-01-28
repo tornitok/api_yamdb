@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import Categories, Comment, Genres, Review, Title
 
 
@@ -67,7 +68,6 @@ class GenresModelAdmin(admin.ModelAdmin):
     ordering = [
         'name',
     ]
-
 
 
 class ReviewInline(admin.TabularInline):
