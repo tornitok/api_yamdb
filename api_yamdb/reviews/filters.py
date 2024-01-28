@@ -1,6 +1,6 @@
 import django_filters as filters
 
-from titles.models import TitlesModel
+from .models import Title
 
 
 class TitleFilter(filters.FilterSet):
@@ -12,7 +12,7 @@ class TitleFilter(filters.FilterSet):
     year = filters.NumberFilter(field_name='year', lookup_expr='exact')
 
     class Meta:
-        model = TitlesModel
+        model = Title
         fields = ['genre', 'category', 'name', 'year']
 
     def __init__(self, *args, **kwargs):
