@@ -129,7 +129,7 @@ class Test05ReviewAPI:
                 text='Текст второго отзыва',
                 score='5',
                 author=admin,
-                title_id=title,
+                title=title,
             )
         except IntegrityError:
             pass
