@@ -37,7 +37,7 @@ class isNotUserRole(BasePermission):
             and request.user.role == User.Roles.USER
             and not request.user.is_superuser
         ):
-            raise PermissionDenied(f'Недостаточно прав для данного действия')
+            raise PermissionDenied('Недостаточно прав для данного действия')
 
         return True
 
@@ -49,7 +49,7 @@ class isNotModeratorRole(BasePermission):
             and request.user.role == User.Roles.MODERATOR
             and not request.user.is_superuser
         ):
-            raise PermissionDenied(f'Недостаточно прав для данного действия')
+            raise PermissionDenied('Недостаточно прав для данного действия')
 
         return True
 

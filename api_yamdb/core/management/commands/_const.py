@@ -5,13 +5,13 @@ DATA_REVIEWS_APP = [
         'data/category.csv',
     ],
     [
-        'titles',
+        'reviews',
         'Genres',
         'data/genre.csv'
     ],
     [
-        'titles',
-        'TitlesModel',
+        'reviews',
+        'Title',
         'data/titles.csv',
         ['category'],
     ],

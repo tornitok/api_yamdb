@@ -90,7 +90,7 @@ class TitlesGenres(models.Model):
 
 
 class Review(models.Model):
-    title_id = models.ForeignKey(
+    title = models.ForeignKey(
         Title,
         verbose_name='Произведение',
         on_delete=models.CASCADE,
@@ -114,7 +114,7 @@ class Review(models.Model):
     class Meta:
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
-        unique_together = ['author', 'title_id']
+        unique_together = ['author', 'title']
 
     def __str__(self):
         return self.title_id.name

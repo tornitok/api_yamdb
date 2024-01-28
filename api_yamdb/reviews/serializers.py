@@ -81,11 +81,14 @@ class ReviewSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         queryset=User.objects.all(), slug_field='username'
     )
-    title_id = serializers.PrimaryKeyRelatedField(queryset=Title.objects.all())
+    title_id = serializers.PrimaryKeyRelatedField(
+        queryset=Title.objects.all(),
+        source='title',
+    )
 
     class Meta:
         model = Review
-        fields = '__all__'
+        fields = ('id', 'title_id', 'text', 'author', 'score', 'pub_date')
         read_only_fields = (
             'pub_date',
             'author',
