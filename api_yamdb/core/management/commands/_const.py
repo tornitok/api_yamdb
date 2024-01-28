@@ -1,41 +1,40 @@
-DATA_TITLES_APP = [
+DATA_REVIEWS_APP = [
     [
-        'titles',
-        'CategoriesModel',
+        'reviews',
+        'Categories',
         'data/category.csv',
     ],
     [
-        'titles',
-        'GenresModel',
+        'reviews',
+        'Genres',
         'data/genre.csv'
     ],
     [
-        'titles',
-        'TitlesModel',
+        'reviews',
+        'Title',
         'data/titles.csv',
         ['category'],
     ],
     [
-        'titles',
-        'TitlesGenresModel',
+        'reviews',
+        'TitlesGenres',
         'data/genre_title.csv',
         ['title', 'genre'],
     ],
-]
-DATA_COMMENTS_APP = [
     [
-        'comments',
-        'ReviewModel',
+        'reviews',
+        'Review',
         'data/review.csv',
         ['title_id', 'author'],
     ],
     [
-        'comments',
-        'CommentModel',
+        'reviews',
+        'Comment',
         'data/comments.csv',
         ['review_id', 'author'],
     ],
 ]
+
 DATA_USER_APP = [
     [
         'users',
