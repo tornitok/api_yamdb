@@ -132,14 +132,14 @@ class Command(BaseCommand):
                         try:
                             index = index + 1
                             index_all = index_all + 1
-                            model_object = model.objects.create(**row)
-                            model_object.save()
+                            model.objects.update_or_create(**row)
+
 
                         except Exception as ex:
                             index = index - 1
                             self.stdout.write(
                                 self.style.ERROR(
-                                    f'Запись "{row}" не добавлена: {ex}'
+                                    f'Запись "{row}" не добавлена: {ex.with_traceback()}'
                                 )
                             )
                     self.stdout.write(
@@ -167,12 +167,12 @@ class Command(BaseCommand):
 
         self.print_divider()
 
-        if self.check_installed_apps('reviews'):
-            for model in DATA_REVIEWS_APP:
-                self.load_data(*model)
-
         if self.check_installed_apps('users'):
             for model in DATA_USER_APP:
+                self.load_data(*model)
+
+        if self.check_installed_apps('reviews'):
+            for model in DATA_REVIEWS_APP:
                 self.load_data(*model)
 
         self.print_divider()
