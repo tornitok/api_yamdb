@@ -2,22 +2,26 @@ from django.contrib.auth import get_user_model
 from django.core.validators import (
     MaxValueValidator,
     MinValueValidator,
-    RegexValidator,
 )
 from django.db import models
 
+from .validators import year_validator
+
 User = get_user_model()
+MAX_LENGTH_CHAR_FIELD = 245
 
 
 class Categories(models.Model):
     """Категории (типы) произведений."""
 
-    name = models.CharField('Наименование категории', max_length=256)
+    name = models.CharField(
+        'Наименование категории',
+        max_length=MAX_LENGTH_CHAR_FIELD
+    )
     slug = models.SlugField(
         'Slug',
         max_length=50,
         unique=True,
-        validators=[RegexValidator(regex='^[-a-zA-Z0-9_]+$')],
     )
 
     class Meta:
@@ -31,12 +35,14 @@ class Categories(models.Model):
 class Genres(models.Model):
     """Категории жанров."""
 
-    name = models.CharField('Наименование жанра', max_length=256)
+    name = models.CharField(
+        'Наименование жанра',
+        max_length=MAX_LENGTH_CHAR_FIELD
+    )
     slug = models.SlugField(
         'Slug',
         max_length=50,
         unique=True,
-        validators=[RegexValidator(regex='^[-a-zA-Z0-9_]+$')],
     )
 
     class Meta:
@@ -49,9 +55,13 @@ class Genres(models.Model):
 
 class Title(models.Model):
     """Произведения, к которым пишут отзывы
-    (oпределённый фильм, книга или песенка)."""
+    (oпределённый фильм, книга или песенка).
+    """
 
-    name = models.TextField('Наименование произведения', max_length=256)
+    name = models.TextField(
+        'Наименование произведения',
+        max_length=MAX_LENGTH_CHAR_FIELD
+    )
     category = models.ForeignKey(
         Categories,
         verbose_name='Категория произведения',
@@ -63,7 +73,10 @@ class Title(models.Model):
         related_name='titles',
         through='TitlesGenres',
     )
-    year = models.IntegerField('Год создания произведения')
+    year = models.SmallIntegerField(
+        'Год создания произведения',
+        validators=[year_validator, ]
+        )
     description = models.TextField(
         'Описание произведения',
         null=True,

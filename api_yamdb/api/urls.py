@@ -10,7 +10,7 @@ from reviews.views import (
 )
 
 v1_router = routers.DefaultRouter()
-v1_router.register(r'titles', TitlesViewSet)
+v1_router.register('titles', TitlesViewSet)
 v1_router.register(r'categories', CategoriesViewSet)
 v1_router.register(r'genres', GenresViewSet)
 v1_router.register(
