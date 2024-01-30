@@ -3,12 +3,12 @@ from django.core.validators import (
     MaxValueValidator,
     MinValueValidator,
 )
-from django.db import models
-
+from django.db import models, IntegrityError
+from core.constants import MAX_LENGTH_CHAR_FIELD
 from .validators import year_validator
 
 User = get_user_model()
-MAX_LENGTH_CHAR_FIELD = 245
+
 
 
 class Categories(models.Model):
@@ -54,7 +54,8 @@ class Genres(models.Model):
 
 
 class Title(models.Model):
-    """Произведения, к которым пишут отзывы
+    """
+    Произведения, к которым пишут отзывы
     (oпределённый фильм, книга или песенка).
     """
 
@@ -76,7 +77,7 @@ class Title(models.Model):
     year = models.SmallIntegerField(
         'Год создания произведения',
         validators=[year_validator, ]
-        )
+    )
     description = models.TextField(
         'Описание произведения',
         null=True,
@@ -118,7 +119,9 @@ class Review(models.Model):
         null=True,
     )
     score = models.IntegerField(
-        'Рейтинг', validators=[MinValueValidator(1), MaxValueValidator(10)]
+        'Рейтинг',
+        validators=[MinValueValidator(1, message='Рейтинг не может быть менее 1.'), 
+                    MaxValueValidator(10, message='Рейтинг не может быть более 10.')]
     )
     pub_date = models.DateTimeField(
         'Дата добавления', auto_now_add=True, db_index=True
@@ -127,7 +130,17 @@ class Review(models.Model):
     class Meta:
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
-        unique_together = ['author', 'title']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['author', 'title'],
+                name='unique review')
+        ]
+
+    def save(self, *args, **kwargs):
+        try:
+            super().save(*args, **kwargs)
+        except IntegrityError:
+            raise IntegrityError("Отзыв с таким автором и произведением уже существует.")
 
     def __str__(self):
         return self.title_id.name
