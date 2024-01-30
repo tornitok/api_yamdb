@@ -29,3 +29,11 @@ class User(AbstractUser):
     confirmation_code = models.CharField(
         verbose_name='Код авторизации', max_length=6, blank=True, null=True
     )
+
+    @property
+    def is_user(self):
+        return self.role == self.Roles.USER
+
+    @property
+    def is_moderator(self):
+        return self.role == self.Roles.MODERATOR
