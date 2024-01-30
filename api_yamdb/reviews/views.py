@@ -1,4 +1,6 @@
+import logging
 from django.contrib.auth import get_user_model
+from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
 from rest_framework import permissions, response, status, viewsets
@@ -45,7 +47,7 @@ class TitlesViewSet(viewsets.ModelViewSet):
 
     http_method_names = ['get', 'post', 'patch', 'delete']
 
-    queryset = Title.objects.all()
+    queryset = Title.objects.all().annotate(rating=Avg('reviews__score'))
 
     permission_classes = [
         isNotUserRole,
@@ -74,6 +76,7 @@ class TitlesViewSet(viewsets.ModelViewSet):
         if self.request.method in permissions.SAFE_METHODS:
             return TitlesDetailSerializer
         return TitlesCreateUpdateSerializer
+
 
     def create(self, request, *args, **kwargs):
         serializer = TitlesCreateUpdateSerializer(data=request.data)

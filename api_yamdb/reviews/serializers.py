@@ -1,7 +1,4 @@
-from datetime import datetime
-
 from django.contrib.auth import get_user_model
-from django.db.models import Avg
 from rest_framework import serializers
 
 from .models import Categories, Comment, Genres, Review, Title
@@ -40,15 +37,11 @@ class TitlesDetailSerializer(serializers.ModelSerializer):
     genre = GenresSerializer(
         many=True,
     )
-    rating = serializers.SerializerMethodField(source='score')
+    rating = serializers.FloatField(read_only=True)
 
     class Meta:
         model = Title
         fields = '__all__'
-
-    def get_rating(self, obj):
-        score = obj.reviews.aggregate(total=Avg('score')) or 0
-        return score['total'] or None
 
 
 class TitlesCreateUpdateSerializer(serializers.ModelSerializer):
@@ -67,14 +60,6 @@ class TitlesCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Title
         fields = '__all__'
-
-    def validate_year(self, obj):
-        current_datetime = datetime.now()
-        if obj > current_datetime.year:
-            raise serializers.ValidationError(
-                'Год создания произведения не может быть больше текущего'
-            )
-        return obj
 
 
 class ReviewSerializer(serializers.ModelSerializer):
