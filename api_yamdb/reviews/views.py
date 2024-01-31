@@ -1,4 +1,5 @@
-from django.contrib.auth import get_user_model
+from django.db import IntegrityError
+from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
 from rest_framework import permissions, response, status, viewsets
@@ -23,8 +24,6 @@ from .serializers import (
     TitlesDetailSerializer,
 )
 
-User = get_user_model()
-
 
 class CategoriesViewSet(BaseCategoriesGenresMixin):
     """Представление для категорий произведений"""
@@ -45,7 +44,7 @@ class TitlesViewSet(viewsets.ModelViewSet):
 
     http_method_names = ['get', 'post', 'patch', 'delete']
 
-    queryset = Title.objects.all()
+    queryset = Title.objects.all().annotate(rating=Avg('reviews__score'))
 
     permission_classes = [
         isNotUserRole,
@@ -127,7 +126,13 @@ class ReviewModelViewSet(viewsets.ModelViewSet):
         data['title_id'] = title_id
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return response.Response(
-            serializer.data, status=status.HTTP_201_CREATED
-        )
+        try:
+            serializer.save()
+            return response.Response(
+                serializer.data, status=status.HTTP_201_CREATED
+            )
+        except IntegrityError:
+            return response.Response(
+                'Нельзя оставить несколько отзывов к одному произведению',
+                status=status.HTTP_400_BAD_REQUEST,
+            )

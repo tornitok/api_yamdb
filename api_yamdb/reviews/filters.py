@@ -15,9 +15,6 @@ class TitleFilter(filters.FilterSet):
         model = Title
         fields = ['genre', 'category', 'name', 'year']
 
-    def __init__(self, *args, **kwargs):
-        super(TitleFilter, self).__init__(*args, **kwargs)
-
     def filter_genre(self, queryset, name, value):
         lookup = '__'.join([name, 'exact'])
         return queryset.filter(**{lookup: value})

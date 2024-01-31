@@ -10,9 +10,9 @@ from reviews.views import (
 )
 
 v1_router = routers.DefaultRouter()
-v1_router.register(r'titles', TitlesViewSet)
-v1_router.register(r'categories', CategoriesViewSet)
-v1_router.register(r'genres', GenresViewSet)
+v1_router.register('titles', TitlesViewSet)
+v1_router.register('categories', CategoriesViewSet)
+v1_router.register('genres', GenresViewSet)
 v1_router.register(
     r'titles/(?P<title_id>\d+)/reviews/(?P<review_id>\d+)/comments',
     CommentViewSet,
