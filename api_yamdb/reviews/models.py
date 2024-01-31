@@ -3,7 +3,7 @@ from django.core.validators import (
     MaxValueValidator,
     MinValueValidator,
 )
-from django.db import models, IntegrityError
+from django.db import models
 from core.constants import MAX_LENGTH_CHAR_FIELD
 from .validators import year_validator
 
@@ -120,8 +120,10 @@ class Review(models.Model):
     )
     score = models.IntegerField(
         'Рейтинг',
-        validators=[MinValueValidator(1, message='Рейтинг не может быть менее 1.'), 
-                    MaxValueValidator(10, message='Рейтинг не может быть более 10.')]
+        validators=[
+            MinValueValidator(1, message='Рейтинг не может быть менее 1.'), 
+            MaxValueValidator(10, message='Рейтинг не может быть более 10.')
+        ]
     )
     pub_date = models.DateTimeField(
         'Дата добавления', auto_now_add=True, db_index=True
@@ -133,17 +135,12 @@ class Review(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['author', 'title'],
-                name='unique review')
+                name="author-title",
+            )
         ]
 
-    def save(self, *args, **kwargs):
-        try:
-            super().save(*args, **kwargs)
-        except IntegrityError:
-            raise IntegrityError("Отзыв с таким автором и произведением уже существует.")
-
     def __str__(self):
-        return self.title_id.name
+        return self.title.name
 
 
 class Comment(models.Model):
