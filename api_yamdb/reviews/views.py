@@ -5,24 +5,16 @@ from django_filters import rest_framework as filters
 from rest_framework import permissions, response, status, viewsets
 from rest_framework.filters import OrderingFilter
 
-from users.permissions import (
-    IsAdminOrModeratorOrReadOnly,
-    IsAuthorOrAdminOrModeratorOrReadOnly,
-    isNotModeratorRole,
-    isNotUserRole,
-)
+from users.permissions import (IsAdminOrModeratorOrReadOnly,
+                               IsAuthorOrAdminOrModeratorOrReadOnly,
+                               isNotModeratorRole, isNotUserRole)
 
 from .filters import TitleFilter
 from .mixins import BaseCategoriesGenresMixin
 from .models import Categories, Comment, Genres, Review, Title
-from .serializers import (
-    CategoriesSerializer,
-    CommentSerializer,
-    GenresSerializer,
-    ReviewSerializer,
-    TitlesCreateUpdateSerializer,
-    TitlesDetailSerializer,
-)
+from .serializers import (CategoriesSerializer, CommentSerializer,
+                          GenresSerializer, ReviewSerializer,
+                          TitlesCreateUpdateSerializer, TitlesDetailSerializer)
 
 
 class CategoriesViewSet(BaseCategoriesGenresMixin):

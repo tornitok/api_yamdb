@@ -134,12 +134,12 @@ class Command(BaseCommand):
                             index_all = index_all + 1
                             model.objects.update_or_create(**row)
 
-
                         except Exception as ex:
                             index = index - 1
                             self.stdout.write(
                                 self.style.ERROR(
-                                    f'Запись "{row}" не добавлена: {ex.with_traceback()}'
+                                    f'Запись "{row}" не добавлена:'
+                                    f'{ex.with_traceback()}'
                                 )
                             )
                     self.stdout.write(
