@@ -5,11 +5,8 @@ from rest_framework.response import Response
 
 from users.models import User
 from users.permissions import IsAdmin
-from users.serializers import (
-    GetJWTSerializer,
-    RegistrationSerializer,
-    UserSerializer,
-)
+from users.serializers import (GetJWTSerializer, RegistrationSerializer,
+                               UserSerializer)
 from users.utils import send_confirmation_email
 
 

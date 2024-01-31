@@ -1,10 +1,7 @@
 from rest_framework import filters, mixins, viewsets
 
-from users.permissions import (
-    IsAdminOrModeratorOrReadOnly,
-    isNotModeratorRole,
-    isNotUserRole,
-)
+from users.permissions import (IsAdminOrModeratorOrReadOnly,
+                               isNotModeratorRole, isNotUserRole)
 
 
 class BaseCategoriesGenresMixin(

@@ -1,14 +1,12 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import (
-    MaxValueValidator,
-    MinValueValidator,
-)
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+
 from core.constants import MAX_LENGTH_CHAR_FIELD
+
 from .validators import year_validator
 
 User = get_user_model()
-
 
 
 class Categories(models.Model):
@@ -121,7 +119,7 @@ class Review(models.Model):
     score = models.IntegerField(
         'Рейтинг',
         validators=[
-            MinValueValidator(1, message='Рейтинг не может быть менее 1.'), 
+            MinValueValidator(1, message='Рейтинг не может быть менее 1.'),
             MaxValueValidator(10, message='Рейтинг не может быть более 10.')
         ]
     )
