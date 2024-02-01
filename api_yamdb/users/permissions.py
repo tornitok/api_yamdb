@@ -53,11 +53,10 @@ class isNotModeratorRole(BasePermission):
 
 class IsAdmin(BasePermission):
     def has_permission(self, request, view):
-        user = request.user
         return (
-            user.is_authenticated
-            and request.user.role == User.Roles.ADMIN
-            or user.is_superuser
+            request.user.is_authenticated
+            and request.user.is_admin
+            or request.user.is_superuser
         )
 
 
