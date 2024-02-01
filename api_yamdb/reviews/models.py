@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from core.constants import MAX_LENGTH_CHAR_FIELD
+from core.constants import MAX_LENGTH_CHAR_FIELD, MAX_LENGTH_SLUG_FIELD
 
 from .validators import year_validator
 
@@ -18,7 +18,7 @@ class Categories(models.Model):
     )
     slug = models.SlugField(
         'Slug',
-        max_length=50,
+        max_length=MAX_LENGTH_SLUG_FIELD,
         unique=True,
     )
 
@@ -39,7 +39,7 @@ class Genres(models.Model):
     )
     slug = models.SlugField(
         'Slug',
-        max_length=50,
+        max_length=MAX_LENGTH_SLUG_FIELD,
         unique=True,
     )
 
@@ -133,7 +133,7 @@ class Review(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['author', 'title'],
-                name="author-title",
+                name='author-title',
             )
         ]
 

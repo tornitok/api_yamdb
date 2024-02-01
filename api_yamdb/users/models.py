@@ -1,6 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from core.constants import (MAX_LENGTH_CODE_USERS, MAX_LENGTH_USERS,
+                            MAX_LENGTH_USERS_ROLE)
+
 
 class User(AbstractUser):
     class Roles(models.TextChoices):
@@ -9,25 +12,30 @@ class User(AbstractUser):
         ADMIN = 'admin', 'Админ'
 
     role = models.CharField(
-        max_length=12,
+        max_length=MAX_LENGTH_USERS_ROLE,
         choices=Roles.choices,
         default=Roles.USER,
         null=True,
     )
     bio = models.TextField(
-        max_length=150,
+        max_length=MAX_LENGTH_USERS,
         blank=True,
         null=True,
     )
     username = models.CharField(
-        verbose_name='Имя пользователя', max_length=150, unique=True
+        verbose_name='Имя пользователя',
+        max_length=MAX_LENGTH_USERS,
+        unique=True
     )
     email = models.EmailField(
         verbose_name='Адрес электронной почты',
         unique=True,
     )
     confirmation_code = models.CharField(
-        verbose_name='Код авторизации', max_length=6, blank=True, null=True
+        verbose_name='Код авторизации',
+        max_length=MAX_LENGTH_CODE_USERS,
+        blank=True,
+        null=True
     )
 
     @property

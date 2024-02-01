@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from users.views import UserViewSet, getjwtoken, registration
 
 router = DefaultRouter()
-router.register(r'users', UserViewSet)
+router.register('users', UserViewSet)
 
 urlpatterns = [
     path('v1/', include(router.urls)),
