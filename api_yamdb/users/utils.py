@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 
 def send_confirmation_email(email, confirmation_code):
     subject = 'Код подтверждения для вашего аккаунта'
-    message = ( 
+    message = (
         '<html>'
         '<body>'
         '<p>Здравствуйте!</p>'
