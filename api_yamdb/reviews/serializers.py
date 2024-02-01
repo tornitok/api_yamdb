@@ -1,9 +1,6 @@
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import Categories, Comment, Genres, Review, Title
-
-User = get_user_model()
+from .models import Categories, Comment, Genres, Review, Title, User
 
 
 class CategoriesSerializer(serializers.ModelSerializer):
